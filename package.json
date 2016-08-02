@@ -1,0 +1,8 @@
+{
+  "name": "git-data.js",
+  "version": "0.0.0",
+  "description": "High-level wrapper for GitHub's Git Database API",
+  "dependencies": {
+    "superagent": "^2.1.0"
+  }
+}
