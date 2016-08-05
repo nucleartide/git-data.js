@@ -6,7 +6,7 @@ const co = require('co')
 const treeFixture = require('./fixtures/tree')
 const clone = json => JSON.parse(JSON.stringify(json))
 
-describe('.getTree({ recursive })', function() {
+describe('.getTree()', function() {
   it('should only fetch files in the root directory', function() {
     const github = new GitHub({ token })
 
@@ -40,8 +40,11 @@ describe('.createTree()', function() {
         repo: 'ember-outside-click',
         tree: treeFixture,
       })
-
       assert.equal(res.tree.length, treeFixture.length)
+
+      const actualPaths = res.tree.map(obj => obj.path)
+      const expectedPaths = treeFixture.map(obj => obj.path)
+      assert.deepEqual(actualPaths, expectedPaths)
     })
   })
 
