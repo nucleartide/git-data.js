@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "High-level wrapper for GitHub's Git Database API",
   "dependencies": {
+    "co": "^4.6.0",
+    "promise": "^7.1.1",
     "superagent": "^2.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.1"
   }
 }
