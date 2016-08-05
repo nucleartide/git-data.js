@@ -3,27 +3,111 @@ const token = process.env.TOKEN
 const GitHub = require('../lib/github')
 const assert = require('assert')
 const co = require('co')
+const treeFixture = require('./fixtures/tree')
+const clone = json => JSON.parse(JSON.stringify(json))
 
 describe('.getTree({ recursive })', function() {
   it('should only fetch files in the root directory', function() {
     const github = new GitHub({ token })
 
     return co(function*(){
-      const flatTree = yield github.getTree({
+      const flat = yield github.getTree({
         owner: 'nucleartide',
         repo: 'ember-outside-click',
         sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
         recursive: false,
       })
 
-      const recursiveTree = yield github.getTree({
+      const recursive = yield github.getTree({
         owner: 'nucleartide',
         repo: 'ember-outside-click',
         sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
         recursive: true,
       })
 
-      assert(flatTree.tree.length < recursiveTree.tree.length)
+      assert(flat.tree.length < recursive.tree.length)
+    })
+  })
+})
+
+describe('.createTree()', function() {
+  it('should create a tree', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: treeFixture,
+      })
+
+      assert.equal(res.tree.length, treeFixture.length)
+    })
+  })
+
+  it('should add a blob to the tree using sha', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: [{
+          "path": "Readme_copy.md",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "866c316f5cab6b10ad08b2f2cfda2173f0ab811d",
+        }],
+        base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+      })
+      assert.equal(res.tree.length, 14 + 1)
+
+      const blob = res.tree.find(obj => obj.path === 'Readme_copy.md')
+      assert.equal(blob.sha, '866c316f5cab6b10ad08b2f2cfda2173f0ab811d')
+    })
+  })
+
+  it('should add a blob to the tree using content', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: [{
+          "path": "something.txt",
+          "mode": "100644",
+          "type": "blob",
+          "content": "asdf asdf asdf asdf",
+        }],
+        base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+      })
+      assert.equal(res.tree.length, 14 + 1)
+
+      const blob = res.tree.find(obj => obj.path === 'something.txt')
+      assert.equal(blob.size, 'asdf asdf asdf asdf'.length)
+    })
+  })
+
+  it('should edit a blob', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: [{
+          "path": "Readme.md",
+          "mode": "100644",
+          "type": "blob",
+          "content": "olympics are starting!!!",
+        }],
+        base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+      })
+      assert.equal(res.tree.length, 14)
+
+      const blob = res.tree.find(obj => obj.path === 'Readme.md')
+      assert.equal(blob.size, 'olympics are starting!!!'.length)
     })
   })
 })
