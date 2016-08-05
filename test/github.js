@@ -113,5 +113,55 @@ describe('.createTree()', function() {
       assert.equal(blob.size, 'olympics are starting!!!'.length)
     })
   })
+
+  it('can recursively update', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res = yield github.getTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+      })
+      // console.log(res)
+
+      // update deep path
+      const res2 = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: [{
+          path: 'tests/test-helper.js',
+          mode: '100644',
+          type: 'blob',
+          content: 'omg wtf bbq',
+        }],
+        base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+      })
+      // console.log(res2)
+    })
+  })
+
+  it('can recursively delete', function() {
+    const github = new GitHub({ token })
+
+    return co(function*(){
+      const res =  yield github.getTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+        recursive: true,
+      })
+      console.log(res)
+
+      const res2 = yield github.createTree({
+        owner: 'nucleartide',
+        repo: 'ember-outside-click',
+        tree: res.tree.slice(0, -1),
+        base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
+        recursive: true,
+      })
+      console.log(res2)
+    })
+  })
 })
 
