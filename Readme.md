@@ -28,9 +28,6 @@ const readme = await repo.touch('Readme.md')
 // read a file
 const packageJson = await repo.readFile('package.json')
 
-// read files
-const javascripts = await repo.readFiles('*.js')
-
 // update a file
 readme.content = 'this is a readme'
 
@@ -45,10 +42,6 @@ packageJson.content = {
 await repo.deleteFile('package.json')
 await repo.rm('package.json') // alias
 
-// delete a directory
-await repo.deleteDirectory('test')
-await repo.rimraf('test')
-
 // commit
 try {
   const commitSHA = await repo.commit('this is a commit message')
@@ -61,12 +54,6 @@ try {
 // blobs
 readme.content
 readme.originalContent
-}
-
-// customize indentation
-await repo.readFile('package.json', JSONBlob(2))
-await repo.readFile('package.json', JSONBlob(4))
-await repo.readFile('package.json', JSONBlob('\t'))
 
 // error objects
 try {
