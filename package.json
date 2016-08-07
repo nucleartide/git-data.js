@@ -11,6 +11,8 @@
     "superagent": "^2.1.0"
   },
   "devDependencies": {
+    "atob": "^2.0.3",
+    "lodash.isobject": "^3.0.2",
     "mocha": "^3.0.1"
   }
 }

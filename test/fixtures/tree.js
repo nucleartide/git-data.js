@@ -1,28 +1,28 @@
 
 module.exports = [
   {
-    "path": ".editorconfig",
-    "mode": "100644",
-    "type": "blob",
-    "sha": "4d92b05b6d637b3ecc402560d1467b4a67874957",
-    "size": 544,
-    "url": "https://api.github.com/repos/nucleartide/ember-outside-click/git/blobs/4d92b05b6d637b3ecc402560d1467b4a67874957"
-  },
-  {
     "path": ".gitignore",
     "mode": "100644",
     "type": "blob",
-    "sha": "68dff1b85cb66df49c787bc44054bd75240be099",
-    "size": 249,
-    "url": "https://api.github.com/repos/nucleartide/ember-outside-click/git/blobs/68dff1b85cb66df49c787bc44054bd75240be099"
+    "sha": "c2658d7d1b31848c3b71960543cb0368e56cd4c7",
+    "size": 14,
+    "url": "https://api.github.com/repos/nucleartide/git-data.js/git/blobs/c2658d7d1b31848c3b71960543cb0368e56cd4c7"
   },
   {
-    "path": ".jshintrc",
+    "path": "Readme.md",
     "mode": "100644",
     "type": "blob",
-    "sha": "bc6daa23df722bd0ea1febd7c89515bd95e4fb83",
-    "size": 537,
-    "url": "https://api.github.com/repos/nucleartide/ember-outside-click/git/blobs/bc6daa23df722bd0ea1febd7c89515bd95e4fb83"
+    "sha": "a17994f2fa8e20f15378ddd04b54232a70807f3d",
+    "size": 1474,
+    "url": "https://api.github.com/repos/nucleartide/git-data.js/git/blobs/a17994f2fa8e20f15378ddd04b54232a70807f3d"
+  },
+  {
+    "path": "index.js",
+    "mode": "100644",
+    "type": "blob",
+    "sha": "90da77cb50bc4852cca1e3217d09c2f4359cc474",
+    "size": 41,
+    "url": "https://api.github.com/repos/nucleartide/git-data.js/git/blobs/90da77cb50bc4852cca1e3217d09c2f4359cc474"
   },
 ]
 
