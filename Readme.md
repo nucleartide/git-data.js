@@ -53,12 +53,16 @@ await repo.deleteFile('package.json')
 await repo.rm('package.json') // alias
 
 // commit
+let newRepo
 try {
-  const commitSHA = await repo.commit('this is a commit message')
-  console.log(commitSHA)
+  newRepo = await repo.commit('this is a commit message')
 } catch (err) {
-  console.log('someone else committed, must invalidate repo cache')
-  repo.invalidate()
+  console.log('someone else committed, must construct new repo object')
+  newRepo = github.repo({
+    owner,
+    repo,
+    sha,
+  })
 }
 
 // blobs
