@@ -31,16 +31,25 @@ github.repo({
   commitPrefix: '[automated] ', // optional
 })
 
+x done
+// blobs
+readme.content
+readme.originalContent
+
+x done
 // create a file
 const readme = await repo.createFile('Readme.md')
 const readme = await repo.touch('Readme.md')
 
+x done
 // read a file
 const packageJson = await repo.readFile('package.json')
 
+x done
 // update a file
 readme.content = 'this is a readme'
 
+x done
 // update a JSON file
 packageJson.content = {
   "dependencies": {
@@ -65,10 +74,6 @@ try {
   })
 }
 
-// blobs
-readme.content
-readme.originalContent
-
 // error objects
 try {
   // ..
@@ -83,7 +88,7 @@ try {
   }
 }
 
-git tree limit
+// aliases
 ```
 
 ## License

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "description": "High-level wrapper for GitHub's Git Database API",
   "scripts": {
-    "test": "mocha --watch test/base64.js test/blob.js test/json-blob.js"
+    "fast-test": "mocha --watch test/base64.js test/blob.js test/json-blob.js test/util.js",
+    "test": "mocha --watch"
   },
   "dependencies": {
     "atob": "^2.0.3",

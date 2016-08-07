@@ -392,6 +392,43 @@ describe('.createTree({ owner, repo, tree, base_tree })', function() {
       assert(testFile)
     })
   })
+
+  it.skip('should remove a file from a nested tree', function() {
+    const g = new GitHub({ token })
+
+    return co(function*(){
+      const res1 = yield g.getTree({
+        owner: 'nucleartide',
+        repo: 'git-data.js',
+        sha: 'ed497f0c5973fa8b5a7fb8ff18c90133433bc651',
+      })
+
+      console.log(res1)
+
+      const res2 = yield g.createTree({
+        owner: 'nucleartide',
+        repo: 'git-data.js',
+        tree: res1.tree.slice(0, -1), // remove shared.js
+      })
+
+      console.log(res2)
+
+      // fml, no way to delete a file in a nice way, github api merges trees
+      const res3 = yield g.createTree({
+        owner: 'nucleartide',
+        repo: 'git-data.js',
+        tree: [{
+          path: 'test',
+          mode: '100644',
+          type: 'blob',
+          content: 'wtf',
+        }],
+        base_tree: '64497bff33cff01ceffcd94f0bcf68e6bb2c5499',
+      })
+
+      console.log(res3)
+    })
+  })
 })
 
 describe('.createCommit({ owner, repo, message, tree, parents })', function() {
