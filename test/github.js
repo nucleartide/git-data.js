@@ -28,6 +28,8 @@ describe('.getTree()', function() {
       assert(flat.tree.length < recursive.tree.length)
     })
   })
+
+  it('should return the same thing for any value of `recursive`')
 })
 
 describe('.createTree()', function() {
@@ -123,7 +125,6 @@ describe('.createTree()', function() {
         repo: 'ember-outside-click',
         sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
       })
-      // console.log(res)
 
       // update deep path
       const res2 = yield github.createTree({
@@ -137,7 +138,6 @@ describe('.createTree()', function() {
         }],
         base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
       })
-      // console.log(res2)
     })
   })
 
@@ -151,7 +151,6 @@ describe('.createTree()', function() {
         sha: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
         recursive: true,
       })
-      console.log(res)
 
       const res2 = yield github.createTree({
         owner: 'nucleartide',
@@ -160,7 +159,6 @@ describe('.createTree()', function() {
         base_tree: 'a2bf79ad37b33a29da3f0cb4bac0567ec7e6d431',
         recursive: true,
       })
-      console.log(res2)
     })
   })
 })

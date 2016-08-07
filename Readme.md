@@ -4,21 +4,31 @@
 ## Usage
 
 ```js
+x done
 // make github api calls with this:
 const github = new GitHub({
   token: 'a0dfga704a3b045d87e332ebf16fc9210e497ba0'
 })
 
+x done
 // example api calls:
 await github.getBlob(...)
 await github.getTree(...)
 
+x done
+await github.getBlob({
+  owner: 'nucleartide',
+  repo: 'slots-data-dev',
+  sha: 'aliwuheaiwuehlawiuhefiluwhelh',
+})
+
+x done
 // make high-level, file system calls with this:
 github.repo({
   owner: 'nucleartide',
   repo: 'ember-outside-click',
   branch: 'master',
-  commitPrefix: '[automated]', // optional
+  commitPrefix: '[automated] ', // optional
 })
 
 // create a file
