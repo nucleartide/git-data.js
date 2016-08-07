@@ -6,6 +6,7 @@ const isObject = require('lodash.isobject')
 const request = require('superagent')
 const treeFixture = require('./fixtures/tree')
 const atob = require('atob')
+const Repo = require('../lib/repo')
 
 const token = process.env.TOKEN
 if (!token) throw new Error('Must set TOKEN environment variable.')
@@ -434,6 +435,30 @@ describe('.updateReference({ owner, repo, ref, sha })', function() {
         assert.equal(err.status, 422)
       }
     })
+  })
+})
+
+describe('.repo({ owner, repo, branch, commitPrefix })', function() {
+  it('should return a Repo object', function() {
+    const g = new GitHub({ token })
+    const r = g.repo()
+    assert(r instanceof Repo)
+  })
+
+  it('should set repo info', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+      commitPrefix: '[automated] '
+    })
+
+    assert.equal(r.github, g)
+    assert.equal(r.owner, 'nucleartide')
+    assert.equal(r.repo, 'git-data.js')
+    assert.equal(r.branch, 'master')
+    assert.equal(r.commitPrefix, '[automated] ')
   })
 })
 

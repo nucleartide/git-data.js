@@ -3,15 +3,18 @@
   "version": "0.0.0",
   "description": "High-level wrapper for GitHub's Git Database API",
   "scripts": {
-    "test": "mocha --watch"
+    "test": "mocha --watch test/base64.js test/blob.js test/json-blob.js"
   },
   "dependencies": {
+    "atob": "^2.0.3",
+    "btoa": "^1.1.2",
     "co": "^4.6.0",
+    "json-stable-stringify": "^1.0.1",
     "promise": "^7.1.1",
     "superagent": "^2.1.0"
   },
   "devDependencies": {
-    "atob": "^2.0.3",
+    "browserify": "^13.1.0",
     "lodash.isobject": "^3.0.2",
     "mocha": "^3.0.1"
   }
