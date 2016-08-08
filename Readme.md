@@ -16,7 +16,3 @@ High-level wrapper for GitHub's Git Database API.
 $ npm install git-data
 ```
 
-## License
-
-MIT
-
