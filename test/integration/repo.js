@@ -256,6 +256,8 @@ describe('.readFile(path)', function() {
   })
 
   it('should properly set blob fields', function() {
+    this.timeout(10 * 1000)
+
     const g = new GitHub({ token })
     const r = g.repo({
       owner: 'nucleartide',
@@ -494,6 +496,8 @@ describe('.commit(message)', function() {
   })
 
   it('should prefix messages with commit prefixes', function() {
+    this.timeout(10 * 1000)
+
     const g = new GitHub({ token })
     const r = g.repo({
       owner: 'nucleartide',
