@@ -1,3 +1,3 @@
 
-const github = require('./lib/github')
+module.exports = require('./lib/github')
 
