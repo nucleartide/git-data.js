@@ -70,24 +70,6 @@ describe('.getCommit({ owner, repo, sha })', function() {
 })
 
 describe('.getTree({ owner, repo, sha })', function() {
-  it.skip('should throw an error when the tree has lots of files', function() {
-    this.timeout(60 * 1000)
-    const g = new GitHub({ token })
-
-    return co(function*(){
-      try {
-        yield g.getTree({
-          owner: 'nucleartide',
-          repo: 'git-data-test',
-          sha: 'd6bd61137e22a0327b8d96da31752d43257e582a',
-        })
-      } catch (err) {
-        assert(err.status >= 500)
-        assert('message' in err.response.body)
-      }
-    })
-  })
-
   it('should work', function() {
     const g = new GitHub({ token })
 
@@ -390,43 +372,6 @@ describe('.createTree({ owner, repo, tree, base_tree })', function() {
 
       const testFile = res3.tree.find(obj => obj.path === 'test.txt')
       assert(testFile)
-    })
-  })
-
-  it.skip('should remove a file from a nested tree', function() {
-    const g = new GitHub({ token })
-
-    return co(function*(){
-      const res1 = yield g.getTree({
-        owner: 'nucleartide',
-        repo: 'git-data.js',
-        sha: 'ed497f0c5973fa8b5a7fb8ff18c90133433bc651',
-      })
-
-      console.log(res1)
-
-      const res2 = yield g.createTree({
-        owner: 'nucleartide',
-        repo: 'git-data.js',
-        tree: res1.tree.slice(0, -1), // remove shared.js
-      })
-
-      console.log(res2)
-
-      // fml, no way to delete a file in a nice way, github api merges trees
-      const res3 = yield g.createTree({
-        owner: 'nucleartide',
-        repo: 'git-data.js',
-        tree: [{
-          path: 'test',
-          mode: '100644',
-          type: 'blob',
-          content: 'wtf',
-        }],
-        base_tree: '64497bff33cff01ceffcd94f0bcf68e6bb2c5499',
-      })
-
-      console.log(res3)
     })
   })
 })

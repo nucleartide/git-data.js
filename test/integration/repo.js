@@ -178,7 +178,7 @@ describe('.deleteFile(path)', function() {
 
     return co(function*(){
       const initialCache = clone(yield r._treeRes())
-      yield r.deleteFile('test/github.js')
+      yield r.deleteFile('test/integration/github.js')
       const updatedCache = yield r._treeRes()
 
       const file = updatedCache.tree.find(i => i.path === 'test/github.js')
