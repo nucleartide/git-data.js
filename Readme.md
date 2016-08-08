@@ -19,93 +19,58 @@ $ npm install git-data
 ## Use
 
 ```js
-x done
-// make github api calls with this:
+// create an object for accessing the Git Data API
 const github = new GitHub({
   token: 'a0dfga704a3b045d87e332ebf16fc9210e497ba0'
 })
 
-x done
-// example api calls:
-await github.getBlob(...)
-await github.getTree(...)
-
-x done
-await github.getBlob({
-  owner: 'nucleartide',
-  repo: 'slots-data-dev',
-  sha: 'aliwuheaiwuehlawiuhefiluwhelh',
-})
-
-x done
-// make high-level, file system calls with this:
+// create an object that provides you with a high-level filesystem API
 github.repo({
   owner: 'nucleartide',
-  repo: 'ember-outside-click',
+  repo: 'git-data.js',
   branch: 'master',
-  commitPrefix: '[automated] ', // optional
 })
 
-x done
-// blobs
-readme.content
-readme.originalContent
-
-x done
 // create a file
 const readme = await repo.createFile('Readme.md')
-const readme = await repo.touch('Readme.md')
+const addTest = await repo.createFile('test/unit/add.js')
 
-x done
 // read a file
 const packageJson = await repo.readFile('package.json')
+const utilFile = await repo.readFile('lib/util.js')
 
-x done
 // update a file
 readme.content = 'this is a readme'
 
-x done
 // update a JSON file
-packageJson.content = {
+readme.content = {
   "dependencies": {
-    "git-data.js": "0.1.0"
+    "git-data": "0.1.0"
   }
 }
 
 // delete a file
 await repo.deleteFile('package.json')
-await repo.rm('package.json') // alias
+await repo.deleteFile('test/unit/add.js')
+await repo.deleteFile('lib/util.js')
 
-// commit
-let newRepo
+// commit all changes
 try {
-  newRepo = await repo.commit('this is a commit message')
+  await repo.commit('this is a commit message')
 } catch (err) {
-  console.log('someone else committed, must construct new repo object')
-  newRepo = github.repo({
-    owner,
-    repo,
-    sha,
-  })
+  // if someone else commits, invalidate our changes
+  if (err.status === 409) repo.invalidate()
 }
-
-// error objects
-try {
-  // ..
-} catch (err) {
-  if (err instanceof AjaxError) {
-  }
-
-  if (err instanceof RateLimitError) {
-  }
-
-  if (err instanceof ConflictError) {
-  }
-}
-
-// aliases
-// invalidate
 ```
+
+## API
+
+- TODO: document commit prefix
+- TODO: implement aliases
+  - create: `repo.touch('new-file.txt')`
+  - read: `repo.open('package.json')`
+  - delete: `repo.rm('Readme.md')`
+- TODO: implement invalidate
 
 ## License
 
