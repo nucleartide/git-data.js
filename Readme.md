@@ -29,6 +29,7 @@ github.repo({
   owner: 'nucleartide',
   repo: 'git-data.js',
   branch: 'master',
+  commitPrefix: '[automated]' // optional, this is prepended to your commit msg
 })
 
 // create a file
@@ -62,15 +63,6 @@ try {
   if (err.status === 409) repo.invalidate()
 }
 ```
-
-## API
-
-- TODO: document commit prefix
-- TODO: implement aliases
-  - create: `repo.touch('new-file.txt')`
-  - read: `repo.open('package.json')`
-  - delete: `repo.rm('Readme.md')`
-- TODO: implement invalidate
 
 ## License
 

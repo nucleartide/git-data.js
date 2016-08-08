@@ -538,3 +538,43 @@ describe('.commit(message)', function() {
   })
 })
 
+describe('.invalidate()', function() {
+  it('should clear the blob cache', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+    })
+
+    const a = new Blob
+    const b = new Blob
+    const c = new Blob
+    r._blobCache = { a, b, c }
+    r.invalidate()
+
+    assert.equal(a.isDestroyed, true)
+    assert.equal(b.isDestroyed, true)
+    assert.equal(c.isDestroyed, true)
+    assert.equal(Object.keys(r._blobCache).length, 0)
+  })
+
+  it('should clear tree cache and last head commit', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      yield r._treeRes()
+      assert.notEqual(r._treeCache, null)
+      assert.notEqual(r._lastHeadCommit, '')
+      r.invalidate()
+      assert.equal(r._treeCache, null)
+      assert.equal(r._lastHeadCommit, '')
+    })
+  })
+})
+
