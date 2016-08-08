@@ -1,7 +1,22 @@
 
 # git-data.js
 
-## Usage
+High-level wrapper for GitHub's Git Database API.
+
+## Features
+
+- Promise based
+- filesystem style API
+- usable in browsers and node.js
+- commit once for arbitrarily many file changes
+
+## Install
+
+```
+$ npm install git-data
+```
+
+## Use
 
 ```js
 x done
