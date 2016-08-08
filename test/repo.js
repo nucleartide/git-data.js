@@ -304,8 +304,133 @@ describe('.readFile(path, FileType)', function() {
 })
 
 describe('.createFile(path)', function() {
+  it('should return cached blob if blob is in the cache', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    const o = {}
+    r._blobCache['something'] = o
+
+    return co(function*(){
+      const blob = yield r.createFile('something')
+      assert.equal(blob, o)
+    })
+  })
+
+  it('should properly set blob fields when the file exists', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('package.json')
+      assert(blob.encoding, 'base64')
+      assert(blob.url)
+      assert(blob.sha)
+      assert(blob.size)
+      assert(blob.path)
+      assert(blob.mode)
+    })
+  })
+
+  it('should only set path if the file does not exist', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('bloop.txt')
+      assert(blob.encoding, 'base64')
+      assert(!blob.url)
+      assert(!blob.sha)
+      assert(!blob.size)
+      assert.equal(blob.path, 'bloop.txt')
+      assert(!blob.mode)
+    })
+  })
+
+  it('should set the blob on cache if the file does not exist', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('package.json')
+      assert(blob.path in r._blobCache)
+    })
+  })
+
+  it('should set the blob on cache if the file does exist', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('bloop.txt.does.not.exist')
+      assert(blob.path in r._blobCache)
+    })
+  })
 })
 
 describe('.createFile(path, FileType)', function() {
+  it('should instantiate a blob when creating a non-json file', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('index.js')
+      assert(blob instanceof Blob)
+    })
+  })
+
+  it('should instantiate a json blob when creating a json file', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const blob = yield r.createFile('package.json')
+      assert(blob instanceof JSONBlob)
+    })
+  })
+
+  it('should instantiate the passed-in class', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    class TestFileType {}
+
+    return co(function*(){
+      const blob = yield r.createFile('package.json', TestFileType)
+      assert(blob instanceof TestFileType)
+    })
+  })
 })
 
