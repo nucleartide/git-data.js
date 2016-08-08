@@ -30,8 +30,6 @@ co(function*(){
   const something = yield repo.readFile('test/something/something.txt')
   const test = yield repo.readFile('test/something/test.txt')
 
-  /*
-
   // update a file
   readme.content = String(Date.now())
 
@@ -43,8 +41,11 @@ co(function*(){
   }
 
   // delete a file
+  try {
   yield repo.deleteFile('a/b/c/Readme.md')
-  */
+  } catch (err) {
+    console.log('delete file failure')
+  }
 
   // commit all changes
   try {
@@ -52,12 +53,10 @@ co(function*(){
   } catch (err) {
     // if someone else commits, invalidate our changes
     if (err.status === 409) repo.invalidate()
-    console.log('inside try/catch')
-    console.error(err.stack)
-    console.log(err)
+    throw err
   }
 }).catch(err => {
   console.error(err.stack)
-  console.log(err)
+  // console.log(err)
 })
 

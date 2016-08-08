@@ -199,6 +199,23 @@ describe('.createTree({ owner, repo, tree })', function() {
       assert.deepEqual(a, e)
     })
   })
+
+  it('should not work for empty trees', function() {
+    const g = new GitHub({ token })
+
+    return co(function*(){
+      try {
+        yield g.createTree({
+          owner: 'nucleartide',
+          repo: 'git-data-test',
+          tree: [],
+        })
+        throw new Error('Should have thrown Error.')
+      } catch (err) {
+        assert.equal(err.status, 422)
+      }
+    })
+  })
 })
 
 describe('.createTree({ owner, repo, tree, base_tree })', function() {

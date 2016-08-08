@@ -195,6 +195,27 @@ describe('.deleteFile(path)', function() {
       assert.notEqual(testTree1.url, testTree2.url, 'test tree url was updated')
     })
   })
+
+  it('should work for empty directories', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const initialCache = clone(yield r._treeRes())
+      yield r.deleteFile('test/fixtures/tree.js')
+      const updatedCache = yield r._treeRes()
+
+      const f = updatedCache.tree.find(i => i.path === 'test/fixtures/tree.js')
+      assert(!f, 'file was deleted')
+
+      assert.notEqual(updatedCache.sha, initialCache.sha, 'sha was updated')
+      assert.notEqual(updatedCache.url, initialCache.url, 'url was updated')
+    })
+  })
 })
 
 describe('.readFile(path)', function() {
