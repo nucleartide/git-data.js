@@ -41,11 +41,7 @@ co(function*(){
   }
 
   // delete a file
-  try {
   yield repo.deleteFile('a/b/c/Readme.md')
-  } catch (err) {
-    console.log('delete file failure')
-  }
 
   // commit all changes
   try {
@@ -55,8 +51,5 @@ co(function*(){
     if (err.status === 409) repo.invalidate()
     throw err
   }
-}).catch(err => {
-  console.error(err.stack)
-  // console.log(err)
-})
+}).catch(err => console.error(err.stack))
 
