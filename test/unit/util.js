@@ -7,7 +7,7 @@ const {
   basename,
   dirname,
   removeElement,
-} = require('../lib/util')
+} = require('../../lib/util')
 const assert = require('assert')
 
 describe('.merge(a, b)', function() {

@@ -1,5 +1,5 @@
 
-const { decode, encode } = require('../lib/base64')
+const { decode, encode } = require('../../lib/base64')
 const assert = require('assert')
 
 describe('.decode(str)', function() {

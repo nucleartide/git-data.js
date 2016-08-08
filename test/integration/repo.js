@@ -1,10 +1,10 @@
 
-const Blob = require('../lib/blob')
-const JSONBlob = require('../lib/json-blob')
-const Repo = require('../lib/repo')
+const Blob = require('../../lib/blob')
+const JSONBlob = require('../../lib/json-blob')
+const Repo = require('../../lib/repo')
 const assert = require('assert')
 const co = require('co')
-const GitHub = require('../lib/github')
+const GitHub = require('../../lib/github')
 const clone = json => JSON.parse(JSON.stringify(json))
 
 const token = process.env.TOKEN

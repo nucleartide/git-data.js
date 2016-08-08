@@ -1,12 +1,12 @@
 
-const GitHub = require('../lib/github')
+const GitHub = require('../../lib/github')
 const assert = require('assert')
 const co = require('co')
 const isObject = require('lodash.isobject')
 const request = require('superagent')
-const treeFixture = require('./fixtures/tree')
+const treeFixture = require('../fixtures/tree')
 const atob = require('atob')
-const Repo = require('../lib/repo')
+const Repo = require('../../lib/repo')
 
 const token = process.env.TOKEN
 if (!token) throw new Error('Must set TOKEN environment variable.')

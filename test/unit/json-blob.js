@@ -1,5 +1,5 @@
 
-const JSONBlob = require('../lib/json-blob')
+const JSONBlob = require('../../lib/json-blob')
 const shared = require('./shared')
 const assert = require('assert')
 

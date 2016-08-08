@@ -1,5 +1,5 @@
 
-const Blob = require('../lib/blob')
+const Blob = require('../../lib/blob')
 const btoa = require('btoa')
 const assert = require('assert')
 const shared = require('./shared')
