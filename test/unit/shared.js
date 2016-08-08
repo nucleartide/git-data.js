@@ -38,5 +38,13 @@ exports.shouldBehaveLikeABlob = function shouldBehaveLikeABlob() {
       assert.equal(b.isDestroyed, true)
     })
   })
+
+  describe('.decodedContent', function() {
+    it('should work', function() {
+      const c = btoa('this is a file')
+      const b = new this.FileType({ content: c })
+      assert.equal(b.decodedContent, 'this is a file')
+    })
+  })
 }
 

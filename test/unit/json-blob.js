@@ -15,8 +15,13 @@ describe('.content', function() {
   it('should decode content', function() {
     const c = btoa(JSON.stringify({ ahh: 'doggy' }))
     const b = new JSONBlob({ content: c })
-
     assert.deepEqual(b.content, { ahh: 'doggy' })
+  })
+
+  it('should work when decoding an empty string', function() {
+    const c = btoa('')
+    const b = new JSONBlob({ content: c })
+    assert.deepEqual(b.content, '')
   })
 })
 
@@ -26,15 +31,6 @@ describe('.content = value', function() {
     b.content = { hi: 'mom' }
 
     assert.equal(b._content, btoa(JSON.stringify(b.content, null, '\t') + '\n'))
-  })
-})
-
-describe('.originalContent', function() {
-  it('should decode original content', function() {
-    const c = btoa(JSON.stringify({ ahh: 'doggy' }))
-    const b = new JSONBlob({ content: c })
-
-    assert.deepEqual(b.originalContent, { ahh: 'doggy' })
   })
 })
 
