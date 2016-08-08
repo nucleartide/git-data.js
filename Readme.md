@@ -89,6 +89,7 @@ try {
 }
 
 // aliases
+// invalidate
 ```
 
 ## License

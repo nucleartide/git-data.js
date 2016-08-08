@@ -56,6 +56,21 @@ describe('._treeRes()', function() {
       assert('truncated' in tree)
     })
   })
+
+  it('should set last head commit', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data.js',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      assert(!r._lastHeadCommit)
+      yield r._treeRes()
+      assert(r._lastHeadCommit)
+    })
+  })
 })
 
 describe('.deleteFile(path)', function() {
@@ -430,6 +445,95 @@ describe('.createFile(path, FileType)', function() {
     return co(function*(){
       const blob = yield r.createFile('package.json', TestFileType)
       assert(blob instanceof TestFileType)
+    })
+  })
+})
+
+describe('.commit(message)', function() {
+  it('should return the git ref response', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const testFile = yield r.createFile('test/something/test.txt')
+      testFile.content = String(Date.now())
+
+      const anotherOne = yield r.createFile('test/something/something.txt')
+      anotherOne.content = String(Date.now())
+
+      const ref = yield r.commit('test message')
+      assert('ref' in ref)
+      assert('url' in ref)
+      assert('object' in ref)
+    })
+  })
+
+  it('should prefix messages with commit prefixes', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+      commitPrefix: "[i'm hungry]",
+    })
+
+    return co(function*(){
+      const testFile = yield r.createFile('test/something/test.txt')
+      testFile.content = String(Date.now())
+
+      const anotherOne = yield r.createFile('test/something/something.txt')
+      anotherOne.content = String(Date.now())
+
+      const ref = yield r.commit('test message')
+      const commitRes = yield g.getCommit({
+        owner: 'nucleartide',
+        repo: 'git-data-test',
+        sha: ref.object.sha,
+      })
+      assert.equal(commitRes.message, "[i'm hungry] test message")
+    })
+  })
+
+  it('should return 422 if no files were changed', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      try {
+        yield r.commit('test message')
+        throw new Error('Should have thrown Error.')
+      } catch (err) {
+        assert.equal(err.status, 422)
+      }
+    })
+  })
+
+  it('should empty tree cache and update last head commit', function() {
+    const g = new GitHub({ token })
+    const r = g.repo({
+      owner: 'nucleartide',
+      repo: 'git-data-test',
+      branch: 'master',
+    })
+
+    return co(function*(){
+      const testFile = yield r.createFile('test/something/test.txt')
+      testFile.content = String(Date.now())
+
+      const anotherOne = yield r.createFile('test/something/something.txt')
+      anotherOne.content = String(Date.now())
+
+      const ref = yield r.commit('test message')
+      assert.equal(r._treeCache, null)
+      assert.equal(r._lastHeadCommit, ref.object.sha)
     })
   })
 })

@@ -38,3 +38,13 @@ describe('.originalContent', function() {
   })
 })
 
+describe('.size', function() {
+  it('should be computed based on the content length', function() {
+    const b = new JSONBlob({ content: btoa('something') })
+    assert.equal(b.size, 'something'.length)
+
+    b.content = 'bloop'
+    assert.equal(b.size, '"bloop"\n'.length)
+  })
+})
+

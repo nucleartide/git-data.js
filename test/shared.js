@@ -17,7 +17,6 @@ exports.shouldBehaveLikeABlob = function shouldBehaveLikeABlob() {
         encoding: 'asdf',
         url: 'asdf',
         sha: 'asdf',
-        size: 42,
         path: 'asdf',
         mode: 'asdf',
       })
@@ -25,7 +24,6 @@ exports.shouldBehaveLikeABlob = function shouldBehaveLikeABlob() {
       assert.equal(b.encoding, 'base64')
       assert.equal(b.url, 'asdf')
       assert.equal(b.sha, 'asdf')
-      assert.equal(b.size, 42)
       assert.equal(b.path, 'asdf')
       assert.equal(b.mode, 'asdf')
     })
@@ -38,19 +36,6 @@ exports.shouldBehaveLikeABlob = function shouldBehaveLikeABlob() {
 
       b.destroy()
       assert.equal(b.isDestroyed, true)
-    })
-  })
-
-  describe('.isDirty', function() {
-    it('should be false if nothing was changed', function() {
-      const b = new this.FileType
-      assert.equal(b.isDirty, false)
-    })
-
-    it('should be true if content was changed', function() {
-      const b = new this.FileType
-      b.content = 'i like eggs and bacon'
-      assert.equal(b.isDirty, true)
     })
   })
 }
