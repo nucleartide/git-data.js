@@ -6,7 +6,7 @@
     "test": "mocha --watch test/unit test/integration",
     "unit-test": "mocha --watch test/unit",
     "integration-test": "mocha --watch test/integration",
-    "build": "browserify index.js > build/index.js"
+    "build": "browserify -s GitHub index.js > build/index.js"
   },
   "dependencies": {
     "atob": "^2.0.3",
