@@ -18,6 +18,12 @@ High-level wrapper for GitHub's [Git Database API][1].
 $ npm install git-data
 ```
 
+## Compatibility
+
+git-data.js requires a Promise implementation. If you are targeting older
+browsers, you should make a Promise polyfill available globally. See [here][9]
+for details.
+
 ## API
 
 git-data.js exposes a GitHub object that wraps the Git Data API, as well as a
@@ -168,4 +174,5 @@ MIT
 [6]: https://developer.github.com/v3/repos/contents/
 [7]: https://www.gitbook.com
 [8]: https://c9.io/
+[9]: https://github.com/tj/co#platform-compatibility
 

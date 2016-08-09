@@ -5,19 +5,31 @@
   "scripts": {
     "test": "mocha --watch test/unit test/integration",
     "unit-test": "mocha --watch test/unit",
-    "integration-test": "mocha --watch test/integration"
+    "integration-test": "mocha --watch test/integration",
+    "build": "browserify index.js > build/index.js"
   },
   "dependencies": {
     "atob": "^2.0.3",
     "btoa": "^1.1.2",
     "co": "^4.6.0",
     "json-stable-stringify": "^1.0.1",
-    "promise": "^7.1.1",
     "superagent": "^2.1.0"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.13.2",
+    "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "lodash.isobject": "^3.0.2",
-    "mocha": "^3.0.1"
+    "mocha": "^3.0.1",
+    "uglify-js": "^2.7.0"
+  },
+  "browser": {
+    "atob": "./build/atob.js",
+    "btoa": "./build/btoa.js"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   }
 }
