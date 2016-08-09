@@ -1,5 +1,5 @@
 {
-  "name": "git-data.js",
+  "name": "git-data",
   "version": "0.0.0",
   "description": "High-level wrapper for GitHub's Git Database API",
   "scripts": {
