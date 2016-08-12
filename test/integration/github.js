@@ -91,6 +91,8 @@ describe('.getTree({ owner, repo, sha })', function() {
 
 describe('get a tree recursively', function() {
   it('should return the same thing for any value of recursive', function() {
+    this.timeout(5000)
+
     return co(function*(){
       const req1 = yield request
       .get(`https://api.github.com/repos/nucleartide/git-data.js/git/trees/8b31f214e2691e7c078653fe02fc6f124695d604`)
