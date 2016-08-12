@@ -136,6 +136,11 @@ module.exports = function () {
     get: function get() {
       return decode(this._content);
     }
+  }, {
+    key: 'originalContent',
+    get: function get() {
+      return decode(this._originalContent);
+    }
   }]);
 
   return Blob;
