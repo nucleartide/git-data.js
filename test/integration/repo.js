@@ -474,6 +474,8 @@ describe('.createFile(path, FileType)', function() {
 
 describe('.commit(message)', function() {
   it('should return the git ref response', function() {
+    this.timeout(5 * 1000)
+
     const g = new GitHub({ token })
     const r = g.repo({
       owner: 'nucleartide',

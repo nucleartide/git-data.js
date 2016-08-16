@@ -24,7 +24,9 @@ describe('.content = value', function() {
   it('should encode content', function() {
     const b = new Blob
     b.content = 'this is a file'
+
     assert.equal(b._content, btoa('this is a file'))
+    assert.notDeepEqual(b.content, b.originalContent)
   })
 })
 

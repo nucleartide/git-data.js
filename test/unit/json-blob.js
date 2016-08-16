@@ -31,6 +31,7 @@ describe('.content = value', function() {
     b.content = { hi: 'mom' }
 
     assert.equal(b._content, btoa(JSON.stringify(b.content, null, '\t') + '\n'))
+    assert.notDeepEqual(b.content, b.originalContent)
   })
 })
 
