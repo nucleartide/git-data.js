@@ -377,7 +377,7 @@ module.exports = function (_Blob) {
 
     get: function get() {
       var c = _get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this);
-      return c ? JSON.parse(_get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this)) : '';
+      return c ? JSON.parse(c) : '';
     },
     set: function set(value) {
       _set(Object.getPrototypeOf(JSONBlob.prototype), 'content', JSON.stringify(value, null, '\t') + '\n', this);
@@ -386,6 +386,10 @@ module.exports = function (_Blob) {
     key: 'originalContent',
     set: function set(value) {
       _set(Object.getPrototypeOf(JSONBlob.prototype), 'content', JSON.stringify(value, null, '\t') + '\n', this);
+    },
+    get: function get() {
+      var c = _get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this);
+      return c ? JSON.parse(c) : '';
     }
   }]);
 
