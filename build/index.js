@@ -475,9 +475,9 @@ module.exports = function () {
 
   }, {
     key: '_treeRes',
-    value: function _treeRes() {
+    value: function _treeRes(ref) {
       return co(regeneratorRuntime.mark(function _callee() {
-        var ref, commitSHA, commit, treeSHA;
+        var commitSHA, commit, treeSHA;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -490,33 +490,39 @@ module.exports = function () {
                 return _context.abrupt('return', this._treeCache);
 
               case 2:
-                _context.next = 4;
+                if (ref) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _context.next = 5;
                 return this._wrapGithub('getReference', { ref: this.branch });
 
-              case 4:
+              case 5:
                 ref = _context.sent;
+
+              case 6:
                 commitSHA = ref.object.sha;
-                _context.next = 8;
+                _context.next = 9;
                 return this._wrapGithub('getCommit', { sha: commitSHA });
 
-              case 8:
+              case 9:
                 commit = _context.sent;
                 treeSHA = commit.tree.sha;
 
 
                 this._lastHeadCommit = commitSHA;
-
-                _context.next = 13;
+                _context.next = 14;
                 return this._wrapGithub('getTree', {
                   sha: treeSHA,
                   recursive: true
                 });
 
-              case 13:
+              case 14:
                 this._treeCache = _context.sent;
                 return _context.abrupt('return', this._treeCache);
 
-              case 15:
+              case 16:
               case 'end':
                 return _context.stop();
             }
@@ -946,7 +952,7 @@ module.exports = function () {
                 // if reference update is successful, update internal state
                 this._treeCache = null;
                 _context6.next = 19;
-                return this._treeRes();
+                return this._treeRes(ref);
 
               case 19:
 
