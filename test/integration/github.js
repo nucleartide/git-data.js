@@ -182,6 +182,8 @@ describe('.getReference({ owner, repo, ref })', function() {
       }
     })
   })
+
+  it('should not fetch from cache')
 })
 
 describe('.createTree({ owner, repo, tree })', function() {

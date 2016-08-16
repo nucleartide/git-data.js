@@ -525,7 +525,7 @@ describe('.commit(message)', function() {
     })
   })
 
-  it('should return 422 if no files were changed', function() {
+  it('should throw error if no files were changed', function() {
     const g = new GitHub({ token })
     const r = g.repo({
       owner: 'nucleartide',
@@ -538,12 +538,12 @@ describe('.commit(message)', function() {
         yield r.commit('test message')
         throw new Error('Should have thrown Error.')
       } catch (err) {
-        assert.equal(err.status, 422)
+        assert.equal(err.message, "Tree cache is empty, which means you haven't modified any files.")
       }
     })
   })
 
-  it('should empty tree cache and update last head commit', function() {
+  it('should refresh tree cache and update last head commit', function() {
     const g = new GitHub({ token })
     const r = g.repo({
       owner: 'nucleartide',
@@ -559,7 +559,7 @@ describe('.commit(message)', function() {
       anotherOne.content = String(Date.now())
 
       const ref = yield r.commit('test message')
-      assert.equal(r._treeCache, null)
+      assert.notEqual(r._treeCache, null)
       assert.equal(r._lastHeadCommit, ref.object.sha)
     })
   })
