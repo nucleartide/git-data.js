@@ -161,17 +161,6 @@ var request = require('superagent');
 var Repo = require('./repo');
 require('./promise');
 
-/**
- * holy crap
- */
-
-function superagentNoCache(request) {
-  request.set('X-Requested-With', 'XMLHttpRequest');
-  request.set('Expires', '-1');
-  request.set('Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1,private');
-  return request;
-}
-
 module.exports = function () {
 
   /**
@@ -262,7 +251,7 @@ module.exports = function () {
       var repo = _ref5.repo;
       var ref = _ref5.ref;
 
-      return request.get('https://api.github.com/repos/' + owner + '/' + repo + '/git/refs/heads/' + ref).use(superagentNoCache).set('Authorization', 'token ' + this.token).then(function (res) {
+      return request.get('https://api.github.com/repos/' + owner + '/' + repo + '/git/refs/heads/' + ref).query({ neverCache: Date.now() }).set('Authorization', 'token ' + this.token).then(function (res) {
         var body = res.body;
         if (Array.isArray(body)) throw new Error('Reference ' + ref + ' not found.');
         return body;
