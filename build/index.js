@@ -385,10 +385,10 @@ module.exports = function (_Blob) {
   }, {
     key: 'originalContent',
     set: function set(value) {
-      _set(Object.getPrototypeOf(JSONBlob.prototype), 'content', JSON.stringify(value, null, '\t') + '\n', this);
+      _set(Object.getPrototypeOf(JSONBlob.prototype), 'originalContent', JSON.stringify(value, null, '\t') + '\n', this);
     },
     get: function get() {
-      var c = _get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this);
+      var c = _get(Object.getPrototypeOf(JSONBlob.prototype), 'originalContent', this);
       return c ? JSON.parse(c) : '';
     }
   }]);
