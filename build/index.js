@@ -889,6 +889,15 @@ module.exports = function () {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                if (this._treeCache) {
+                  _context6.next = 2;
+                  break;
+                }
+
+                throw new Error("Tree cache is empty, which means you haven't modified any files.");
+
+              case 2:
+
                 // create array of blob infos
                 blobPaths = Object.keys(this._blobCache);
                 blobs = blobPaths.map(function (path) {
@@ -902,47 +911,50 @@ module.exports = function () {
 
                 // create tree
 
-                _context6.next = 4;
+                _context6.next = 6;
                 return this._treeRes();
 
-              case 4:
+              case 6:
                 tree = _context6.sent;
-                _context6.next = 7;
+                _context6.next = 9;
                 return this._wrapGithub('createTree', {
                   tree: blobs,
                   base_tree: tree.sha
                 });
 
-              case 7:
+              case 9:
                 res = _context6.sent;
-                _context6.next = 10;
+                _context6.next = 12;
                 return this._wrapGithub('createCommit', {
                   message: this.commitPrefix + ' ' + message,
                   tree: res.sha,
                   parents: [this._lastHeadCommit]
                 });
 
-              case 10:
+              case 12:
                 commit = _context6.sent;
-                _context6.next = 13;
+                _context6.next = 15;
                 return this._wrapGithub('updateReference', {
                   ref: this.branch,
                   sha: commit.sha
                 });
 
-              case 13:
+              case 15:
                 ref = _context6.sent;
 
 
                 // if reference update is successful, update internal state
                 this._treeCache = null;
-                this._lastHeadCommit = ref.object.sha;
+                _context6.next = 19;
+                return this._treeRes();
+
+              case 19:
 
                 // update original content of all cached blobs
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context6.prev = 19;
+                _context6.prev = 22;
                 for (_iterator2 = Object.keys(this._blobCache)[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
                   path = _step2.value;
                   blob = this._blobCache[path];
@@ -951,48 +963,48 @@ module.exports = function () {
                 }
 
                 // return reference
-                _context6.next = 27;
+                _context6.next = 30;
                 break;
 
-              case 23:
-                _context6.prev = 23;
-                _context6.t0 = _context6['catch'](19);
+              case 26:
+                _context6.prev = 26;
+                _context6.t0 = _context6['catch'](22);
                 _didIteratorError2 = true;
                 _iteratorError2 = _context6.t0;
 
-              case 27:
-                _context6.prev = 27;
-                _context6.prev = 28;
+              case 30:
+                _context6.prev = 30;
+                _context6.prev = 31;
 
                 if (!_iteratorNormalCompletion2 && _iterator2.return) {
                   _iterator2.return();
                 }
 
-              case 30:
-                _context6.prev = 30;
+              case 33:
+                _context6.prev = 33;
 
                 if (!_didIteratorError2) {
-                  _context6.next = 33;
+                  _context6.next = 36;
                   break;
                 }
 
                 throw _iteratorError2;
 
-              case 33:
+              case 36:
+                return _context6.finish(33);
+
+              case 37:
                 return _context6.finish(30);
 
-              case 34:
-                return _context6.finish(27);
-
-              case 35:
+              case 38:
                 return _context6.abrupt('return', ref);
 
-              case 36:
+              case 39:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee5, this, [[19, 23, 27, 35], [28,, 30, 34]]);
+        }, _callee5, this, [[22, 26, 30, 38], [31,, 33, 37]]);
       }).bind(this));
     }
   }, {
