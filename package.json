@@ -1,6 +1,6 @@
 {
   "name": "git-data",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "High-level wrapper for GitHub's Git Database API",
   "scripts": {
     "test": "mocha --watch test/unit test/integration",
