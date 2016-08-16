@@ -38,3 +38,19 @@ describe('.size', function() {
   })
 })
 
+describe('.originalContent', function() {
+  it('should decode originalContent', function() {
+    const c = btoa('"this is a file"')
+    const b = new Blob({ content: c })
+    assert.equal(b.originalContent, '"this is a file"')
+  })
+
+  it('should be able to set originalContent', function() {
+    const c = btoa('"this is a file"')
+    const b = new Blob({ content: c })
+    b.originalContent = '"something"'
+
+    assert.equal(b.originalContent, '"something"')
+  })
+})
+

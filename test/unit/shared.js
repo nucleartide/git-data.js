@@ -46,13 +46,5 @@ exports.shouldBehaveLikeABlob = function shouldBehaveLikeABlob() {
       assert.equal(b.decodedContent, 'this is a file')
     })
   })
-
-  describe('.originalContent', function() {
-    it('should decode originalContent', function() {
-      const c = btoa('this is a file')
-      const b = new this.FileType({ content: c })
-      assert.equal(b.originalContent, 'this is a file')
-    })
-  })
 }
 
