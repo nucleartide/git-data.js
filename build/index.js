@@ -140,6 +140,10 @@ module.exports = function () {
     key: 'originalContent',
     get: function get() {
       return decode(this._originalContent);
+    },
+    set: function set(value) {
+      if (typeof value !== 'string') throw new Error('Value is not a string.');
+      this._originalContent = encode(value);
     }
   }]);
 
@@ -375,6 +379,11 @@ module.exports = function (_Blob) {
       var c = _get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this);
       return c ? JSON.parse(_get(Object.getPrototypeOf(JSONBlob.prototype), 'content', this)) : '';
     },
+    set: function set(value) {
+      _set(Object.getPrototypeOf(JSONBlob.prototype), 'content', JSON.stringify(value, null, '\t') + '\n', this);
+    }
+  }, {
+    key: 'originalContent',
     set: function set(value) {
       _set(Object.getPrototypeOf(JSONBlob.prototype), 'content', JSON.stringify(value, null, '\t') + '\n', this);
     }
@@ -870,7 +879,8 @@ module.exports = function () {
       return co(regeneratorRuntime.mark(function _callee5() {
         var _this2 = this;
 
-        var blobPaths, blobs, tree, res, commit, ref;
+        var blobPaths, blobs, tree, res, commit, ref, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, path, blob;
+
         return regeneratorRuntime.wrap(function _callee5$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
@@ -924,43 +934,89 @@ module.exports = function () {
                 this._treeCache = null;
                 this._lastHeadCommit = ref.object.sha;
 
+                // update original content of all cached blobs
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context6.prev = 19;
+                for (_iterator2 = Object.keys(this._blobCache)[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                  path = _step2.value;
+                  blob = this._blobCache[path];
+
+                  blob.originalContent = blob.content;
+                }
+
                 // return reference
+                _context6.next = 27;
+                break;
+
+              case 23:
+                _context6.prev = 23;
+                _context6.t0 = _context6['catch'](19);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context6.t0;
+
+              case 27:
+                _context6.prev = 27;
+                _context6.prev = 28;
+
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
+                }
+
+              case 30:
+                _context6.prev = 30;
+
+                if (!_didIteratorError2) {
+                  _context6.next = 33;
+                  break;
+                }
+
+                throw _iteratorError2;
+
+              case 33:
+                return _context6.finish(30);
+
+              case 34:
+                return _context6.finish(27);
+
+              case 35:
                 return _context6.abrupt('return', ref);
 
-              case 17:
+              case 36:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee5, this, [[19, 23, 27, 35], [28,, 30, 34]]);
       }).bind(this));
     }
   }, {
     key: 'invalidate',
     value: function invalidate() {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
       try {
-        for (var _iterator2 = Object.keys(this._blobCache)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var key = _step2.value;
+        for (var _iterator3 = Object.keys(this._blobCache)[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var key = _step3.value;
 
           var value = this._blobCache[key];
           value.destroy();
           delete this._blobCache[key];
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
